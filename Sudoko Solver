@@ -1,0 +1,194 @@
+/*                         
+                                               ____
+                                              /   /
+                                             /   /
+              ________    ____              /   /   _________       _
+             |______  !   \   \            /   /   |_______  !     ! !     _
+                    ! !    \ V \          /   /            ! !     ( @    \ \ 
+                    ! !     \ I \        /   /             ! !_____! !_____\ \
+               _    !J!      \ K \      /   /         _    !  _____   _____ |=|
+              \ \   !A!       \ A \    /   /         \ \   ! !     ! !     / / 
+               \ \  !Y!        \ S \  /   /           \ \  ! !     ( @    /_/  
+                \ \_! !         \ H \/   /             \ \_! !     !_!    
+                 \____!          \______/               \____!      
+
+                              Contact:
+                             ~~~~~~~~~
+
+        Name:          Jay Prakash Mahto
+
+        Phone
+                        9835582472
+        What'sApp:
+
+        E-mail:         JVJplus@gmail.com
+
+        Id:             JVJplus (topcoder / codeforces / codechef / hackerrank / uva /spoj)
+
+        Blog/Page:      www.facebook.com/JVJplusBlog
+
+        Country:        India 
+----------------------------------------------------------------------------------------->
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long int                  ll; 
+typedef unsigned long long int         ull; 
+typedef pair<int,int>                  pii;
+typedef pair<ll,ll>                    pll;
+typedef vector<int>                    vi; 
+typedef vector<bool>                   vb;
+typedef vector<vi>                     vvi; 
+typedef vector<pii>                    vp;
+typedef unordered_map<int,int>         umap_ii;
+typedef unordered_map<char,int>        umap_ci;
+typedef unordered_map<string,int>      umap_si;
+
+#define fi                             first
+#define se                             second
+#define INF                            0x3f3f3f3f
+#define PI                             3.1415926535897932384626
+#define MOD                            1000000007
+#define pb                             push_back
+#define uset                           unordered_set
+#define umap                           unordered_map
+#define pq_max                         priority_queue<int>
+#define pq_min                         priority_queue<int,vector<int>,greater<int>>
+#define mp                             make_pair  //Better use {}
+#define size5                          100010
+#define NL                             cout<<endl;
+
+//LOOPS
+#define For(i,b)                       for(int i=0;i<b;i++)
+#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define foreach(v, c)                  for(auto v:c)
+#define nested(i,a,b,j,c,d)            for(int i=a;i<b;i++){ for(int j=c;j<d;j++)
+//#define foreach(v, c)                for( auto v = (c).begin();  v != (c).end(); ++v)
+#define min3(a,b,c)                    min(a,min(b,c))
+#define max3(a,b,c)                    max(a,max(b,c))
+#define min4(a,b,c,d)                  min(min(a,b),min(c,d))
+#define max4(a,b,c,d)                  max(max(a,b),max(c,d))
+#define maxall(v)                      *max_element(all(v))
+#define minall(v)                      *min_element(all(v))
+#define all(a)                         a.begin(), a.end()
+#define MS0(X)                         memset((X), 0, sizeof((X)))
+#define MS1(X)                         memset((X), -1, sizeof((X)))
+#define whileNE(x)                     while(!x.empty())
+#define present(c,x)                   ((c).find(x) != (c).end()) 
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+
+//Sort
+#define sortva(v) sort(all(v))
+#define sortvd(v) sort(v.rbegin(),v.rend())
+#define sortaa(a,n) sort(a,a+n)
+#define sortad(a,n) sort(a,a+n),reverse(a,a+n)
+
+// directions
+const int fx[4][2] =                   {{0,1}, {0,-1}, {1,0}, {-1,0}};
+const int fxx[8][2] =                  {{0,1}, {0,-1}, {1,0}, {-1,0}, {1,1}, {1,-1}, {-1,1}, {-1,-1}};
+
+// Some common useful functions
+#define maX                            INF
+#define miN                            INT_MIN
+#define checkbit(n,b)                  ((n >> b) & 1)
+#define INDEX(arr,ind)                 (lower_bound(all(arr),ind)-arr.begin())
+#define REMAX(a,b)                     (a)=max((a),(b)) // set a to the maximum of a and b
+#define REMIN(a,b)                     (a)=min((a),(b));
+#define sz(a)                          (int)(a.size())
+#define len(a)                         (int)(a.length())
+#define UB(a,x)                        (upper_bound(all(a),x)-a.begin())
+#define LB(a,x)                        (lower_bound(all(a),x)-a.begin())
+#define NP(a)                          next_permutation(all(a))
+
+#define print(x)                       cout<<x;
+#define print2(x,y)                    cout<<x<<" "<<y;
+#define println(x)                     cout<<x<<'\n';
+#define accept_arr(arr,N)              For(i,N) cin>>arr[i];
+#define print1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define print2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                        getline(cin,n); cin.ignore();
+#define debug(x)                       cout << #x << ": " << x << endl; //cerr can be used
+#define debug2(x, y)                   cout << #x << ": " << x << " | " << #y << ": " << y << endl;
+
+#define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
+
+
+bool check(int board[][9],int row,int col,int val)
+{
+    for(int k=0;k<9;k++)
+    {
+        if(board[row][k]==val)
+            return false;
+        if(board[k][col]==val)
+            return false;
+    }
+    int TopRowIndice=row-row%3;
+    int TopColIndice=col-col%3;
+
+    for(int c=TopRowIndice;c<TopRowIndice+3;c++)
+    {
+        for(int d=TopColIndice;d<TopColIndice+3;d++)
+        {
+           if(board[c][d]==val)
+           {
+            return false;
+        }
+    }
+}
+return true;
+}
+bool helper(int board[][9],int row,int col)
+{
+    if(row==9)
+    {
+        return true;
+    }
+    if(col==9)
+        return helper(board,row+1,0);
+    if(board[row][col]!=0)
+    {
+        return helper(board,row,col+1);
+    }
+    for(int k=1;k<=9;k++)
+    {
+        if(check(board,row,col,k))
+        {
+            board[row][col]=k;
+            if(helper(board,row,col+1))
+                return true;
+        }
+        board[row][col]=0;
+    }
+    return false;
+}
+bool sudokuSolver(int board[][9]){
+    return helper(board,0,0);
+}
+
+int main(){
+    //sublimeProblem;
+    int arr[9][9];
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){            
+            cin>>arr[i][j];
+        }
+    }
+    bool ans=sudokuSolver(arr); 
+
+    if(ans){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){            
+                cout<<arr[i][j]<< " ";
+            }
+            NL;
+        }
+    }
+    else
+        cout<<"NOT Possible\n";
+}
