@@ -1,0 +1,123 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// Input macros
+#define s(n)                        scanf("%d",&n)
+#define sc(n)                       scanf("%c",&n)
+#define sl(n)                       scanf("%lld",&n)
+#define sf(n)                       scanf("%lf",&n)
+#define ss(n)                       getline(cin,n); //scanf("%s",n)
+
+#define fi first
+#define se second
+#define INF 0x3f3f3f3f
+#define pb push_back
+typedef long long int ll; 
+typedef pair<int,int> ii;
+
+#define For(i,b)                  	for(int i=0;i<b;i++)
+#define FoR(i,a,b)                  for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                  for(int i=a;i<b;i++)
+#define foreach(v, c)               for( auto v:c)
+//#define foreach(v, c)             for( auto v = (c).begin();  v != (c).end(); ++v)
+#define min3(a,b,c) 					min(a,min(b,c))
+#define min4(a,b,c,d) 					min(min(a,b),min(c,d))
+#define all(a)                      a.begin(), a.end()
+#define fill(a,v)                    memset(a, v, sizeof a)
+
+typedef pair<int,int> ii;
+typedef vector<int> vi; 
+typedef vector<bool> vb;
+typedef vector<vi> vvi; 
+typedef vector<ii> vp;
+#define u_ unordered_
+typedef unordered_map<int,int> u_map_ii;
+typedef unordered_map<char,int> u_map_ci;
+
+#define pq_max priority_queue<int>
+#define pq_min priority_queue<int,vector<int>,greater<int>>
+
+#define whileNE(x) while(!x.empty())
+#define present(c,x) ((c).find(x) != (c).end()) 
+#define mp make_pair
+// directions
+const int fx[4][2] = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+const int fxx[8][2] = {{0,1}, {0,-1}, {1,0}, {-1,0}, {1,1}, {1,-1}, {-1,1}, {-1,-1}};
+// Some common useful functions
+#define maX                     INF
+#define miN                     INT_MIN
+#define checkbit(n,b)                ( (n >> b) & 1)
+#define INDEX(arr,ind)               (lower_bound(all(arr),ind)-arr.begin())
+
+#define TCase int T; cin>>T; while(T--) // the same as above
+#define REMAX(a,b) (a)=max((a),(b)) // set a to the maximum of a and b
+#define REMIN(a,b) (a)=min((a),(b));
+#define PI 3.1415926535897932384626
+#define MOD 1000000007
+#define SIZE(a)      (int)(a.size())
+#define LEN(a)       (int)(a.length())
+
+#define print(x) cout<<x;
+#define print2(x,y) cout<<x<<" "<<y;
+#define println(x) cout<<x<<'\n';
+#define printA(arr,length) for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define printAB(arr,start,length) for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+
+#define debug(x)                cerr << #x << ": " << x << endl;
+#define debug2(x, y)             cerr << #x << ": " << x << " | " << #y << ": " << y << endl;
+
+int N,C;
+const int SIZE=pow(10,6)+10;
+int arr[SIZE];
+
+bool isPossible(ll dist){
+	ll curr,i=1,cows=C,diff,prev=arr[0];
+	cows--;
+	// debug(arr[1]);
+	while(i<N){
+		if(cows==0){
+			break;
+		}
+		curr=arr[i];
+		diff=curr-prev;
+		// cout<<diff<<" ";
+		if(diff>=dist){
+			cows--;
+			prev=curr;
+		}
+		i++;
+	}
+	//cout<<"called : "<<dist<<" = "<<(cows==0)<<endl;
+	return cows==0;
+}
+
+ll f(){
+	sort(arr,arr+N);
+	ll start=0,end=pow(10,9)+5;
+	ll MAX=-1;
+	while(start<=end){
+		ll mid=start+(end-start)/2;
+		if(isPossible(mid)){
+			REMAX(MAX,mid);
+			start=mid+1;
+		}
+		else{
+			end=mid-1;
+		}
+	}
+	return MAX;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);    
+
+	TCase{
+		cin>>N>>C;
+		For(i,N)
+			cin>>arr[i];
+		cout<<f()<<endl;
+	}
+	
+}
