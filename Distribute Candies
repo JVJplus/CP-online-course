@@ -1,0 +1,160 @@
+/*                         
+                                               ____
+                                              /   /
+                                             /   /
+              ________    ____              /   /   _________       _
+             |______  !   \   \            /   /   |_______  !     ! !     _
+                    ! !    \ V \          /   /            ! !     ( @    \ \ 
+                    ! !     \ I \        /   /             ! !_____! !_____\ \
+               _    !J!      \ K \      /   /         _    !  _____   _____ |=|
+              \ \   !A!       \ A \    /   /         \ \   ! !     ! !     / / 
+               \ \  !Y!        \ S \  /   /           \ \  ! !     ( @    /_/  
+                \ \_! !         \ H \/   /             \ \_! !     !_!    
+                 \____!          \______/               \____!      
+
+                              Contact:
+                             ~~~~~~~~~
+
+        Name:          Jay Prakash Mahto
+
+        Phone
+                        9835582472
+        What'sApp:
+
+        E-mail:         JVJplus@gmail.com
+
+        Id:             JVJplus (topcoder / codeforces / codechef / hackerrank / uva /spoj)
+
+        Blog/Page:      www.facebook.com/JVJplusBlog
+
+        Country:        India 
+----------------------------------------------------------------------------------------->
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long int                  ll; 
+typedef unsigned long long int         ull; 
+typedef pair<int,int>                  pii;
+typedef pair<ll,ll>                    pll;
+typedef vector<int>                    vi; 
+typedef vector<bool>                   vb;
+typedef vector<vi>                     vvi; 
+typedef vector<pii>                    vp;
+typedef unordered_map<int,int>         umap_ii;
+typedef unordered_map<char,int>        umap_ci;
+typedef unordered_map<string,int>      umap_si;
+
+#define fi                             first
+#define se                             second
+#define INF                            0x3f3f3f3f
+#define PI                             3.1415926535897932384626
+#define MOD                            1000000007
+#define pb                             push_back
+#define uset                           unordered_set
+#define umap                           unordered_map
+#define pq_max                         priority_queue<int>
+#define pq_min                         priority_queue<int,vector<int>,greater<int>>
+#define mp                             make_pair  //Better use {}
+#define size5                          100010
+
+//LOOPS
+#define For(i,b)                       for(int i=0;i<b;i++)
+#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define foreach(v, c)                  for(auto v:c)
+#define nested(i,a,b,j,c,d)            for(int i=a;i<b;i++){ for(int j=c;j<d;j++)
+//#define foreach(v, c)                for( auto v = (c).begin();  v != (c).end(); ++v)
+#define min3(a,b,c)                    min(a,min(b,c))
+#define max3(a,b,c)                    max(a,max(b,c))
+#define min4(a,b,c,d)                  min(min(a,b),min(c,d))
+#define max4(a,b,c,d)                  max(max(a,b),max(c,d))
+#define maxall(v)                      *max_element(all(v))
+#define minall(v)                      *min_element(all(v))
+#define all(a)                         a.begin(), a.end()
+#define MS0(X)                         memset((X), 0, sizeof((X)))
+#define MS1(X)                         memset((X), -1, sizeof((X)))
+#define whileNE(x)                     while(!x.empty())
+#define present(c,x)                   ((c).find(x) != (c).end()) 
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+
+//Sort
+#define sortva(v) sort(all(v))
+#define sortvd(v) sort(v.rbegin(),v.rend())
+#define sortaa(a,n) sort(a,a+n)
+#define sortad(a,n) sort(a,a+n),reverse(a,a+n)
+
+// directions
+const int fx[4][2] =                   {{0,1}, {0,-1}, {1,0}, {-1,0}};
+const int fxx[8][2] =                  {{0,1}, {0,-1}, {1,0}, {-1,0}, {1,1}, {1,-1}, {-1,1}, {-1,-1}};
+
+// Some common useful functions
+#define maX                            INF
+#define miN                            INT_MIN
+#define checkbit(n,b)                  ((n >> b) & 1)
+#define INDEX(arr,ind)                 (lower_bound(all(arr),ind)-arr.begin())
+#define REMAX(a,b)                     (a)=max((a),(b)) // set a to the maximum of a and b
+#define REMIN(a,b)                     (a)=min((a),(b));
+#define sz(a)                          (int)(a.size())
+#define len(a)                         (int)(a.length())
+#define UB(a,x)                        (upper_bound(all(a),x)-a.begin())
+#define LB(a,x)                        (lower_bound(all(a),x)-a.begin())
+#define NP(a)                          next_permutation(all(a))
+
+#define print(x)                       cout<<x;
+#define print2(x,y)                    cout<<x<<" "<<y;
+#define println(x)                     cout<<x<<'\n';
+#define accept_arr(arr,N)              For(i,N) cin>>arr[i];
+#define print1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define print2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                        getline(cin,n); cin.ignore();
+#define debug(x)                       cout << #x << ": " << x << endl; //cerr can be used
+#define debug2(x, y)                   cout << #x << ": " << x << " | " << #y << ": " << y << endl;
+
+#define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
+
+
+int N;
+int arr[size5];
+int needed;
+
+bool f(int k){
+    ll sum=0;
+  if(k==0)
+    return 1;
+    For(i,N){
+        sum+=arr[i]/k;
+        if(sum>=needed)
+            return 1;
+    }
+    return 0;
+}
+
+int main()
+{
+    fast_io;
+
+    TCase{
+        cin>>N>>needed;
+        accept_arr(arr,N);
+
+        int s=0,e=pow(10,9)+2;
+        int ans=0;
+        while(s<=e){
+            int mid=s+(e-s)/2;
+
+            if(f(mid)){
+                ans=mid;
+                s=mid+1;
+            }
+            else
+                e=mid-1;
+        }
+        cout<<ans<<endl;
+    }        
+
+}
