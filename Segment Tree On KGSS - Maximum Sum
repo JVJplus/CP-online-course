@@ -1,0 +1,123 @@
+/***********************
+*   Jay Prakash Mahto  *
+*       JVJplus        *
+************************/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long int                  ll; 
+typedef pair<int,int>                  pii;
+typedef vector<int>                    vi; 
+typedef vector<vi>                     vvi; 
+
+#define fi                             first
+#define se                             second
+#define INF                            0x3f3f3f3f
+#define MOD                            1000000007
+#define pb                             push_back
+#define NL                             cout<<endl;
+#define EL                             cerr<<endl;
+#define For(i,b)                       for(int i=0;i<b;i++)
+#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define forit(v, c)                    for(auto v:c)
+#define min3(a,b,c)                    min(a,min(b,c))
+#define max3(a,b,c)                    max(a,max(b,c))
+#define all(a)                         a.begin(), a.end()
+#define MS0(X)                         memset((X), 0, sizeof((X)))
+#define MS1(X)                         memset((X), -1, sizeof((X)))
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+#define sz(a)                          (int)(a.size())
+#define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); freopen("debug_log.txt", "w", stderr);
+
+struct node{
+    int m;
+    int sm;
+};
+
+
+#define _N 100005
+int arr[_N];
+node tree[4*_N];
+
+void build(int start,int end,int index){
+    if(start==end){
+        tree[index].m=arr[start];
+        tree[index].sm=-INF;
+        return ;
+    }
+    int mid=(start+end)>>1;
+    build(start,mid,2*index);
+    build(mid+1,end,2*index+1);
+    tree[index].m=max(tree[2*index].m,tree[2*index+1].m);
+    tree[index].sm=min(max(tree[2*index].m,tree[2*index+1].sm),max(tree[2*index].sm,tree[2*index+1].m));
+}
+
+void update(int start,int end,int tIdx, int idx, int value){
+    if(start==end){
+        arr[idx]=value;
+        tree[tIdx].m=value;
+        tree[tIdx].sm=-INF;
+        return ;
+    }
+    int mid=(start+end)>>1;
+    if(mid<idx)
+        update(mid+1,end,2*tIdx+1,idx,value);
+    else
+        update(start,mid,2*tIdx,idx,value);
+    
+    tree[tIdx].m=max(tree[2*tIdx].m,tree[2*tIdx+1].m);
+    tree[tIdx].sm=min(max(tree[2*tIdx].m,tree[2*tIdx+1].sm),max(tree[2*tIdx].sm,tree[2*tIdx+1].m));
+}
+
+node query(int start,int end,int tidx,int left,int right){
+    if(end<left || start>right){
+        node temp;
+        temp.m=-INF;
+        temp.sm=-INF;
+        return temp;
+    }
+    if(start>=left && end<=right)
+        return tree[tidx];
+
+    int mid=(start+end)>>1;
+    node a1=query(start,mid,2*tidx,left,right);
+    node a2=query(mid+1,end,2*tidx+1,left,right);
+    node temp;
+    
+    temp.m=max(a1.m,a2.m);
+    temp.sm=min(max(a1.m,a2.sm),max(a1.sm,a2.m));
+    return temp;
+}
+
+int main()
+{
+    fast_io;
+    // sublimeProblem;
+
+    int n;
+    cin>>n;
+    For(i,n){
+        cin>>arr[i];
+    }
+    build(0,n-1,1);
+
+    int q;
+    cin>>q;
+    while(q--){
+        char c;
+        int x,y;
+        cin>>c>>x>>y;
+        if(c=='U'){
+            x--;
+            update(0,n-1,1,x,y);
+        }else{
+            x--;
+            y--;
+            node ans=query(0,n-1,1,x,y);
+            cout<<ans.m+ans.sm<<endl;
+        }
+    }
+}
