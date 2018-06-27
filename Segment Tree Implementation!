@@ -3,6 +3,8 @@
 *       JVJplus        *
 ************************/
 
+//Add Simple Implementation without struct also! 
+
 #include<bits/stdc++.h>
 using namespace std;
 
