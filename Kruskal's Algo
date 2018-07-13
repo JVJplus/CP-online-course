@@ -1,0 +1,147 @@
+/***********************
+*   Jay Prakash Mahto  *
+*       JVJplus        *
+************************/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long int                  ll; 
+typedef pair<int,int>                  pii;
+typedef vector<int>                    vi; 
+typedef vector<bool>                   vb;
+#define fi                             first
+#define se                             second
+#define all(a)                         a.begin(), a.end()
+#define INF                            0x3f3f3f3f
+#define MOD                            1000000007
+#define pb                             push_back
+#define NL                             cout<<endl;
+#define EL                             cerr<<endl;
+#define For(i,b)                       for(int i=0;i<b;i++)
+#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define MS0(X)                         memset((X), 0, sizeof((X)))
+#define MS1(X)                         memset((X), -1, sizeof((X)))
+#define sz(a)                          (int)(a.size())
+#define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); freopen("debug_log.txt", "w", stderr);
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+
+#define print(x)                       cout<<x;
+#define print2(x,y)                    cout<<x<<" "<<y;
+#define accept_arr(arr,N)              For(i,N) cin>>arr[i];
+#define print1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define print2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                        getline(cin,n); cin.ignore();
+#define input_array                    int n;cin>>n;int arr[n];For(i,n) cin>>arr[i];
+
+#define dbg(...) __dbg(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __dbg(const char* name, Arg1&& arg1){cerr << name << " : " << arg1 << std::endl;}
+template <typename Arg1, typename... Args>
+void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__dbg(comma+1, args...);}
+
+
+#define _N 100005
+int parent[_N];
+int Rank[_N];
+
+void makeSet(){
+	For(i,_N){
+		parent[i]=i;
+		Rank[i]=1;
+	}
+}
+
+int Find(int a){
+	if(parent[a]!=a)
+		parent[a]=Find(parent[a]);
+
+	return parent[a];
+}
+
+void Union(int a,int b){
+	int ha=Find(a);
+	int hb=Find(b);
+
+    //if connected
+	if(ha==hb)
+		return;
+
+    //attach smaller Depth Tree under Deeper tree
+	if(Rank[ha]<Rank[hb]){
+		parent[ha]=hb;
+	}
+	else if(Rank[hb]<Rank[ha]){
+		parent[hb]=ha;
+	}
+	else{
+		parent[ha]=hb;
+		Rank[hb]++;
+	}
+}
+
+bool isConnected(int a,int b){
+	return (Find(a)==Find(b));
+}
+
+void printSets(){
+
+	For(i,_N)
+	cout<<setw(5)<<i;
+	cout<<endl;
+
+	For(i,_N)
+	cout<<setw(5)<<parent[i];
+	NL;
+	NL;
+}
+
+
+
+
+int v,e;
+pair<int,pair<int,int>> g[_N];
+
+int kruskals(){
+	int minCost=0;
+
+	sort(g,g+e);
+	
+	int n=0,i=0;
+	while(n<=v-1 && i<e){
+		int u=g[i].se.fi;
+		int v=g[i].se.se;
+		int w=g[i].fi;
+		if(!isConnected(u,v)){
+			Union(u,v);
+			cout<<min(v,u)<<" "<<max(u,v)<<" "<<w<<endl;
+			minCost+=w;
+			n++;
+		}
+		i++;
+	}
+
+	return minCost;
+}
+
+int main()
+{
+	fast_io;
+	//sublimeProblem;
+
+	makeSet();
+	cin>>v>>e;
+
+	For(i,e){
+		int a,b,w;
+		cin>>a>>b>>w;
+		g[i]={w,{a,b}};
+	}
+
+	int minCost=kruskals();
+
+}
