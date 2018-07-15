@@ -46,57 +46,37 @@ void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = s
 
 
 #define _N 100005
-
-
 int v,e;
 vector<pii> g[_N];
 
-int dijsktra(int U,int V){
-    vector<int> parent(v,0);
-    vector<int> weight(v,INF);
-    vector<bool> visited(v,0);
+ll dijsktra(int u1,int v1){
+	if(u1==v1)
+		return INF;
 
-    priority_queue<pii,vector<pii>,greater<pii>> pq;
-    pq.push({0,U});
-    weight[U]=0;
+	vector<int> dist(v+1,INF);
+	vector<bool> vis(v+1,0);
 
-    while(!pq.empty()){ 
-        pii top=pq.top();
-        int front=top.se;
-        int frontW=top.fi;
-        pq.pop();
-        
-        if(visited[front])
-            continue;
-        visited[front]=1;
+	dist[u1] = 0;
+    multiset < pair < int , int > > s;          // multiset do the job as a min-priority queue
 
-        For(i,sz(g[front])){
-            int cV=g[front][i].fi;
-            int cW=g[front][i].se;
-            if(!visited[cV] && ( (cW+weight[front]) < weight[cV]) ) {
-              parent[cV]=front;
-              weight[cV]=cW+weight[front];
-              pq.push({weight[cV],cV});
-          }          
-      }
-  }
+    s.insert({0 , u1});                          // insert the source node with distance = 0
 
-  return weight[V];
-}
+    while(!s.empty()){
 
-int main(){
-    fast_io;
-//    sublimeProblem;
+        pair <int , int> p = *s.begin();        // pop the vertex with the minimum distance
+        s.erase(s.begin());
 
-    cin>>v>>e;
-    For(i,e){
-        int a,b,w;
-        cin>>a>>b>>w;
-        g[a].pb({b,w});
-        g[b].pb({a,w});
+        int x = p.se; int wei = p.fi;
+        if( vis[x] ) continue;                  // check if the popped vertex is visited before
+        vis[x] = true;
+
+        for(int i = 0; i < g[x].size(); i++){
+        	int e1 = g[x][i].fi; int w = g[x][i].se;
+            if(dist[x] + w < dist[e1]  ){            // check if the next vertex distance could be minimized
+            	dist[e1] = dist[x] + w;
+                s.insert({dist[e1],  e1} );           // insert the next vertex with the updated distance
+            }
+        }
     }
-
-    int U,V;
-    cin>>U>>V;
-    cout<< dijsktra(U,V);
+    return dist[v1];
 }
