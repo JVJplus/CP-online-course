@@ -45,7 +45,7 @@ template <typename Arg1, typename... Args>
 void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__dbg(comma+1, args...);}
 
 
-#define _N 11
+#define _N 100005
 int parent[_N];
 int Rank[_N];
 
