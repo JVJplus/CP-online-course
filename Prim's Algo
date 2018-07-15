@@ -1,0 +1,105 @@
+/***********************
+*   Jay Prakash Mahto  *
+*       JVJplus        *
+************************/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long int                  ll; 
+typedef pair<int,int>                  pii;
+typedef vector<int>                    vi; 
+typedef vector<bool>                   vb;
+#define fi                             first
+#define se                             second
+#define all(a)                         a.begin(), a.end()
+#define INF                            0x3f3f3f3f
+#define MOD                            1000000007
+#define pb                             push_back
+#define NL                             cout<<endl;
+#define EL                             cerr<<endl;
+#define For(i,b)                       for(int i=0;i<b;i++)
+#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define MS0(X)                         memset((X), 0, sizeof((X)))
+#define MS1(X)                         memset((X), -1, sizeof((X)))
+#define sz(a)                          (int)(a.size())
+#define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); freopen("debug_log.txt", "w", stderr);
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+
+#define print(x)                       cout<<x;
+#define print2(x,y)                    cout<<x<<" "<<y;
+#define accept_arr(arr,N)              For(i,N) cin>>arr[i];
+#define print1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define print2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                        getline(cin,n); cin.ignore();
+#define input_array                    int n;cin>>n;int arr[n];For(i,n) cin>>arr[i];
+
+#define dbg(...) __dbg(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __dbg(const char* name, Arg1&& arg1){cerr << name << " : " << arg1 << std::endl;}
+template <typename Arg1, typename... Args>
+void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__dbg(comma+1, args...);}
+
+
+#define _N 100005
+
+
+int v,e;
+vector<pii> g[_N];
+
+int prims(){
+    vector<int> parent(v,0);
+    vector<int> weight(v,INF);
+    vector<bool> visited(v,0);
+
+    priority_queue<pii,vector<pii>,greater<pii>> pq;
+    pq.push({0,0});
+
+    while(!pq.empty()){ 
+        pii top=pq.top();
+        int front=top.se;
+        pq.pop();
+        
+        if(visited[front])
+            continue;
+        visited[front]=1;
+
+        For(i,sz(g[front])){
+            int cV=g[front][i].fi;
+            int cW=g[front][i].se;
+            if(!visited[cV] && cW<weight[cV]){
+              parent[cV]=front;
+              weight[cV]=cW;
+              pq.push({cW,cV});
+            }          
+        }
+    }
+
+  int minCost=0;
+  FOR(i,1,v){
+    cout<<min(parent[i],i)<<" "<<max(parent[i],i)<<" "<<weight[i]<<endl;
+    minCost+=weight[i];
+}
+
+return minCost;
+}
+
+int main(){
+    fast_io;
+    //sublimeProblem;
+
+    cin>>v>>e;
+    For(i,e){
+        int a,b,w;
+        cin>>a>>b>>w;
+        g[a].pb({b,w});
+        g[b].pb({a,w});
+    }
+
+    int minCost=prims();
+    // dbg(minCost);
+}
