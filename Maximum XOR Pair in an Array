@@ -1,0 +1,121 @@
+//https://leetcode.com/submissions/detail/166086319/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long int                  ll; 
+typedef pair<int,int>                  pii;
+typedef vector<int>                    vi; 
+typedef vector<bool>                   vb;
+#define fi                             first
+#define se                             second
+#define all(a)                         a.begin(), a.end()
+#define INF                            0x3f3f3f3f
+#define MOD                            1000000007
+#define pb                             push_back
+#define NL                             cout<<endl;
+#define EL                             cerr<<endl;
+#define For(i,b)                       for(int i=0;i<b;i++)
+#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define MS0(X)                         memset((X), 0, sizeof((X)))
+#define MS1(X)                         memset((X), -1, sizeof((X)))
+#define forit(v, c)                    for(auto v:c)
+#define whileNE(x)                     while(!x.empty())
+#define present(c,x)                   ((c).find(x) != (c).end()) 
+#define cntbit                         __builtin_popcountll
+#define REMAX(a,b)                     (a)=max((a),(b)) // set a to the maximum of a and b
+#define REMIN(a,b)                     (a)=min((a),(b));
+#define sz(a)                          (int)(a.size())
+#define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); freopen("debug_log.txt", "w", stderr);
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+
+#define print(x)                       cout<<x;
+#define print2(x,y)                    cout<<x<<" "<<y;
+#define accept_arr(arr,N)              For(i,N) cin>>arr[i];
+#define print1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define print2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                        getline(cin,n); cin.ignore();
+#define input_array                    int n;cin>>n;int arr[n];For(i,n) cin>>arr[i];
+
+#define dbg(...) __dbg(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __dbg(const char* name, Arg1&& arg1){cerr << name << " : " << arg1 << std::endl;}
+template <typename Arg1, typename... Args>
+void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__dbg(comma+1, args...);}
+
+
+class TrieNode{
+public:
+    TrieNode *right;
+    TrieNode *left;
+};
+
+void insert(TrieNode *head,int n){
+    TrieNode *curr=head;
+    // FOR(i,0,32){
+    for(int i=31;i>=0;i--){
+        int ithBit=(n>>i)&1;
+
+        if(ithBit==0){
+            if(!curr->left)
+                curr->left=new TrieNode();
+            curr=curr->left;
+        }else{
+            if(!curr->right)
+                curr->right=new TrieNode();
+            curr=curr->right;
+        }
+    }
+}
+
+int findMaxXorPair(TrieNode *head,int *arr,int n){
+    int MAX_XOR=INT_MIN;
+
+    For(j,n){
+        int value=arr[j];
+        int curr_xor=0;
+        TrieNode *curr=head;
+        // For(i,32){    
+        for(int i=31;i>=0;i--){
+            int ithBit=(value>>i)&1;
+
+            if(ithBit==0){
+                if(curr->right){
+                    curr_xor+=pow(2,i);//(1<<j);
+                    curr=curr->right;
+                }
+                else
+                    curr=curr->left;
+            }else{
+                if(curr->left){
+                    curr_xor+=pow(2,i);//(1<<j);
+                    curr=curr->left;
+                }
+                else
+                    curr=curr->right;
+            }
+        }
+       dbg(curr_xor);
+        REMAX(MAX_XOR,curr_xor);
+    }
+
+    return MAX_XOR;
+}
+
+class Solution {
+public:
+    int findMaximumXOR(vector<int>& v) {
+        TrieNode *head=new TrieNode();
+        int n=sz(v);
+        int arr[n];
+        For(i,n){
+            arr[i]=v[i];
+            insert(head,arr[i]);
+        }
+        return findMaxXorPair(head,arr,n);          
+    }
+};
