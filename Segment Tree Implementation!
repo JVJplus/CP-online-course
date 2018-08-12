@@ -3,18 +3,16 @@
 *       JVJplus        *
 ************************/
 
-//Add Simple Implementation without struct also! 
-
 #include<bits/stdc++.h>
 using namespace std;
 
 typedef long long int                  ll; 
 typedef pair<int,int>                  pii;
 typedef vector<int>                    vi; 
-typedef vector<vi>                     vvi; 
-
+typedef vector<bool>                   vb;
 #define fi                             first
 #define se                             second
+#define all(a)                         a.begin(), a.end()
 #define INF                            0x3f3f3f3f
 #define MOD                            1000000007
 #define pb                             push_back
@@ -23,103 +21,103 @@ typedef vector<vi>                     vvi;
 #define For(i,b)                       for(int i=0;i<b;i++)
 #define FoR(i,a,b)                     for(int i=a;i>=b;i--)
 #define FOR(i,a,b)                     for(int i=a;i<b;i++)
-#define forit(v, c)                    for(auto v:c)
-#define min3(a,b,c)                    min(a,min(b,c))
-#define max3(a,b,c)                    max(a,max(b,c))
-#define all(a)                         a.begin(), a.end()
 #define MS0(X)                         memset((X), 0, sizeof((X)))
 #define MS1(X)                         memset((X), -1, sizeof((X)))
-#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+#define forit(v, c)                    for(auto v:c)
+#define whileNE(x)                     while(!x.empty())
+#define present(c,x)                   ((c).find(x) != (c).end()) 
+#define cntbit                         __builtin_popcountll
+#define REMAX(a,b)                     (a)=max((a),(b)) // set a to the maximum of a and b
+#define REMIN(a,b)                     (a)=min((a),(b));
 #define sz(a)                          (int)(a.size())
 #define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
 #define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); freopen("debug_log.txt", "w", stderr);
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
 
-struct node{
-    int m;
-    int sm;
-};
+#define print(x)                       cout<<x;
+#define print2(x,y)                    cout<<x<<" "<<y;
+#define accept_arr(arr,N)              For(i,N) cin>>arr[i];
+#define print1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define print2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define print2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                        getline(cin,n); cin.ignore();
+#define input_array                    int n;cin>>n;int arr[n];For(i,n) cin>>arr[i];
 
+#define dbg(...) __dbg(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __dbg(const char* name, Arg1&& arg1){cerr << name << " : " << arg1 << std::endl;}
+template <typename Arg1, typename... Args>
+void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__dbg(comma+1, args...);}
 
+#define treeNode node
+#define left (treeNode<<1)+1
+#define right (treeNode<<1)+2
+#define MID ((s+e)>>1)
 #define _N 100005
+
+int N;
 int arr[_N];
-node tree[4*_N];
-int n;
+int tree[_N*4];
 
-void build(int start=0,int end=n-1,int index=1){
-    if(start==end){
-        tree[index].m=arr[start];
-        tree[index].sm=-INF;
+void build(int s=0,int e=N-1,int node=0){
+    if(s==e){
+        tree[node]=arr[s];
         return ;
     }
-    int mid=(start+end)>>1;
-    build(start,mid,2*index);
-    build(mid+1,end,2*index+1);
-    tree[index].m=max(tree[2*index].m,tree[2*index+1].m);
-    tree[index].sm=min(max(tree[2*index].m,tree[2*index+1].sm),max(tree[2*index].sm,tree[2*index+1].m));
+    int mid=MID;
+    build(s,mid,left);
+    build(mid+1,e,right);
+    tree[node]=min(tree[left],tree[right]);
 }
 
-void update(int idx,int value,int tIdx=1,int start=0,int end=n-1){
-    if(start==end){
-        arr[idx]=value;
-        tree[tIdx].m=value;
-        tree[tIdx].sm=-INF;
-        return ;
+void update(int u_idx,int u_val,int s=0,int e=N-1,int node=0){
+    if(s==e){
+        tree[node]=u_val;
+        arr[u_idx]=u_val;
+        return;
     }
-    int mid=(start+end)>>1;
-    if(mid<idx)
-        update(idx,value,2*tIdx+1,mid+1,end);
+    if(u_idx<=MID)
+        update(u_idx,u_val,s,MID,left);
     else
-        update(idx,value,2*tIdx,start,mid);
-    
-    tree[tIdx].m=max(tree[2*tIdx].m,tree[2*tIdx+1].m);
-    tree[tIdx].sm=min(max(tree[2*tIdx].m,tree[2*tIdx+1].sm),max(tree[2*tIdx].sm,tree[2*tIdx+1].m));
+        update(u_idx,u_val,MID+1,e,right);
+
+    tree[node]= min(tree[left],tree[right]);
 }
 
-node query(int left,int right,int tIdx=1,int start=0,int end=n-1){
-    if(end<left || start>right){
-        node temp;
-        temp.m=-INF;
-        temp.sm=-INF;
-        return temp;
-    }
-    if(start>=left && end<=right)
-        return tree[tIdx];
+int query(int l,int r,int s=0,int e=N-1,int node=0){
+    if(l>e || r<s)
+        return INF;
 
-    int mid=(start+end)>>1;
-    node a1=query(left,right,2*tIdx,start,mid);
-    node a2=query(left,right,2*tIdx+1,mid+1,end);
-    node temp;
-    
-    temp.m=max(a1.m,a2.m);
-    temp.sm=min(max(a1.m,a2.sm),max(a1.sm,a2.m));
-    return temp;
+    if(l<=s && r>=e)
+        return tree[node];
+        
+    //partial
+    return min(query(l,r,s,MID,left),query(l,r,MID+1,e,right));
 }
 
 int main()
 {
+    sublimeProblem;
     fast_io;
-    //sublimeProblem;
 
-    cin>>n;
-    For(i,n){
-        cin>>arr[i];
-    }
+    int Q;
+    cin>>N>>Q;
+    accept_arr(arr,N);
     build();
 
-    int q;
-    cin>>q;
-    while(q--){
+    For(i,Q){
         char c;
         int x,y;
         cin>>c>>x>>y;
-        if(c=='U'){
+        if(c=='q'){
+            x--,y--;
+            cout<<query(x,y)<<endl;
+        }
+        else{
             x--;
             update(x,y);
-        }else{
-            x--;
-            y--;
-            node ans=query(x,y);
-            cout<<ans.m+ans.sm<<endl;
         }
+
     }
 }
