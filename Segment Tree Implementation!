@@ -6,7 +6,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-typedef long long int                  ll; 
+typedef long long                      ll; 
 typedef pair<int,int>                  pii;
 typedef vector<int>                    vi; 
 typedef vector<bool>                   vb;
@@ -18,9 +18,9 @@ typedef vector<bool>                   vb;
 #define pb                             push_back
 #define NL                             cout<<endl;
 #define EL                             cerr<<endl;
-#define For(i,b)                       for(int i=0;i<b;i++)
-#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
-#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define For(i,b)                       for(ll i=0;i<b;i++)
+#define FoR(i,a,b)                     for(ll i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(ll i=a;i<b;i++)
 #define MS0(X)                         memset((X), 0, sizeof((X)))
 #define MS1(X)                         memset((X), -1, sizeof((X)))
 #define forit(v, c)                    for(auto v:c)
@@ -32,17 +32,18 @@ typedef vector<bool>                   vb;
 #define sz(a)                          (int)(a.size())
 #define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
 #define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); freopen("debug_log.txt", "w", stderr);
-#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+#define TCase                          ll ___T, case_n = 1; cin>>___T; while (___T-- > 0)
 
-#define print(x)                       cout<<x;
-#define print2(x,y)                    cout<<x<<" "<<y;
-#define accept_arr(arr,N)              For(i,N) cin>>arr[i];
-#define print1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
-#define print1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
-#define print2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
-#define print2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
-#define gets(n)                        getline(cin,n); cin.ignore();
-#define input_array                    int n;cin>>n;int arr[n];For(i,n) cin>>arr[i];
+#define display(x)                       cout<<x;
+#define display2(x,y)                    cout<<x<<" "<<y;
+#define accept_arr                       For(i,N) cin>>arr[i];
+#define accept_array(arr,N)              For(i,N) cin>>arr[i];
+#define display1d(arr,length)            for(ll i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define display1D(arr,start,length)      for(ll i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define display2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define display2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                          getline(cin,n); cin.ignore();
+#define input_array                      ll n;cin>>n;ll arr[n];For(i,n) cin>>arr[i];
 
 #define dbg(...) __dbg(#__VA_ARGS__, __VA_ARGS__)
 template <typename Arg1>
@@ -50,28 +51,35 @@ void __dbg(const char* name, Arg1&& arg1){cerr << name << " : " << arg1 << std::
 template <typename Arg1, typename... Args>
 void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__dbg(comma+1, args...);}
 
+
 #define treeNode node
 #define left (treeNode<<1)+1
 #define right (treeNode<<1)+2
 #define MID ((s+e)>>1)
 #define _N 100005
 
-int N;
-int arr[_N];
-int tree[_N*4];
+ll N;
+ll arr[_N];
+ll tree[_N*4];
+ll lazy[_N*4];
 
-void build(int s=0,int e=N-1,int node=0){
-    if(s==e){
-        tree[node]=arr[s];
-        return ;
-    }
-    int mid=MID;
-    build(s,mid,left);
-    build(mid+1,e,right);
-    tree[node]=min(tree[left],tree[right]);
+ll merge(ll a,ll b){
+    return a+b;
 }
 
-void update(int u_idx,int u_val,int s=0,int e=N-1,int node=0){
+void build(ll s=0,ll e=N-1,ll node=0){
+    if(s==e){
+        tree[node]=arr[s];
+        return;
+    }
+
+    build(s,MID,left);
+    build(MID+1,e,right);
+
+    tree[node]=merge(tree[left],tree[right]);
+}
+
+void update(ll u_idx,ll u_val,ll s=0,ll e=N-1,ll node=0){
     if(s==e){
         tree[node]=u_val;
         arr[u_idx]=u_val;
@@ -82,18 +90,71 @@ void update(int u_idx,int u_val,int s=0,int e=N-1,int node=0){
     else
         update(u_idx,u_val,MID+1,e,right);
 
-    tree[node]= min(tree[left],tree[right]);
+    tree[node]=merge(tree[left],tree[right]);
 }
 
-int query(int l,int r,int s=0,int e=N-1,int node=0){
-    if(l>e || r<s)
-        return INF;
+void rangeUpdate(ll l, ll r, ll u_val,ll s=0,ll e=N-1,ll node=0){ //lazy propagation
 
-    if(l<=s && r>=e)
-        return tree[node];
+    //lazy work
+    if(lazy[node]!=0){ 
+        tree[node]+=(e-s+1)*lazy[node];
+        // tree[node]+=lazy[node];
+
+        //if not a leaf node
+        if(s!=e){
+            lazy[left]+=lazy[node];            
+            lazy[right]+=lazy[node];            
+        }
+        lazy[node]=0;
+    }
+
+    if(l>r || l>e || r<s){ //no overlape
+        return;
+    }
+
+    if(l<=s && r>=e){ //complete overlape
+        tree[node]+=(e-s+1)*u_val;
+        // tree[node]+=u_val;
         
+        //if not a leaf node
+        if(s!=e){
+            lazy[left]+=u_val;
+            lazy[right]+=u_val;
+        }
+        return;
+    }
+
+    //partial overlapping
+    rangeUpdate(l,r,u_val,s,MID,left);
+    rangeUpdate(l,r,u_val,MID+1,e,right);
+
+    tree[node]=merge(tree[left],tree[right]);
+}
+
+ll query(ll l,ll r,ll s=0,ll e=N-1,ll node=0){
+    if(l>e || r<s){ //not overlaping
+        return 0;
+    }
+
+    if(lazy[node]!=0){ 
+        tree[node]+=(e-s+1)*lazy[node];
+        // tree[node]+=lazy[node];
+
+        //if not a leaf node
+        if(s!=e){
+            lazy[left]+=lazy[node];            
+            lazy[right]+=lazy[node];            
+        }
+        lazy[node]=0;
+    }
+
+    if(l<=s && r>=e) //completely overlapping
+        return tree[node];
+
     //partial
-    return min(query(l,r,s,MID,left),query(l,r,MID+1,e,right));
+    ll lans=query(l,r,s,MID,left);
+    ll rans=query(l,r,MID+1,e,right);
+    return merge(lans,rans);
 }
 
 int main()
@@ -101,23 +162,27 @@ int main()
     sublimeProblem;
     fast_io;
 
-    int Q;
-    cin>>N>>Q;
-    accept_arr(arr,N);
-    build();
+    TCase{
+        ll Q;
+        cin>>N>>Q;
 
-    For(i,Q){
-        char c;
-        int x,y;
-        cin>>c>>x>>y;
-        if(c=='q'){
-            x--,y--;
-            cout<<query(x,y)<<endl;
-        }
-        else{
-            x--;
-            update(x,y);
-        }
+        For(i,Q){
+            ll k;
+            cin>>k;
 
+            if(k==1){
+                ll x,y;
+                cin>>x>>y;
+                x--,y--;
+                cout<<query(x,y)<<endl;
+            }
+            else{
+                ll l,r,v;
+                cin>>l>>r>>v;
+                l--,r--;
+                rangeUpdate(l,r,v);
+            }
+        }
     }
+
 }
