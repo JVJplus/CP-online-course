@@ -1,0 +1,110 @@
+/***********************
+*   Jay Prakash Mahto  *
+*       JVJplus        *
+************************/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long int                  ll; 
+typedef pair<int,int>                  pii;
+typedef vector<int>                    vi; 
+typedef vector<bool>                   vb;
+#define fi                             first
+#define se                             second
+#define all(a)                         a.begin(), a.end()
+#define INF                            0x3f3f3f3f
+#define MOD                            1000000007
+#define pb                             push_back
+#define NL                             cout<<endl;
+#define EL                             cerr<<endl;
+#define For(i,b)                       for(int i=0;i<b;i++)
+#define FoR(i,a,b)                     for(int i=a;i>=b;i--)
+#define FOR(i,a,b)                     for(int i=a;i<b;i++)
+#define MS0(X)                         memset((X), 0, sizeof((X)))
+#define MS1(X)                         memset((X), -1, sizeof((X)))
+#define forit(v, c)                    for(auto v:c)
+#define whileNE(x)                     while(!x.empty())
+#define present(c,x)                   ((c).find(x) != (c).end()) 
+#define cntbit                         __builtin_popcountll
+#define REMAX(a,b)                     (a)=max((a),(b)) // set a to the maximum of a and b
+#define REMIN(a,b)                     (a)=min((a),(b));
+#define sz(a)                          (int)(a.size())
+#define fast_io                        ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define sublimeProblem                 freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); freopen("debug_log.txt", "w", stderr);
+#define TCase                          int ___T, case_n = 1; cin>>___T; while (___T-- > 0)
+
+#define display(x)                       cout<<x;
+#define display2(x,y)                    cout<<x<<" "<<y;
+#define accept_arr                       For(i,N) cin>>arr[i];
+#define accept_array(arr,N)              For(i,N) cin>>arr[i];
+#define display1d(arr,length)            for(int i=0;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define display1D(arr,start,length)      for(int i=start;i<length;i++) cout<<arr[i]<<" "; cout<<'\n';
+#define display2d(arr,n)                 For(i,n){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define display2D(arr,m,n)               For(i,m){For(j,n){cout<<arr[i][j]<<" ";}cout<<endl;}
+#define gets(n)                          getline(cin,n); cin.ignore();
+#define input_array                      int n;cin>>n;int arr[n];For(i,n) cin>>arr[i];
+
+
+#define dbg(...) __dbg(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __dbg(const char* name, Arg1&& arg1){cerr << name << " : " << arg1 << std::endl;}
+template <typename Arg1, typename... Args>
+void __dbg(const char* names, Arg1&& arg1, Args&&... args){const char* comma = strchr(names + 1, ',');cerr.write(names, comma - names) << " : " << arg1<<" | ";__dbg(comma+1, args...);}
+
+
+#define _N 300005
+
+struct coder {
+  int x, y, index;
+};
+
+bool operator<(coder a, coder b) {
+  if (a.x == b.x) {
+    return a.y < b.y;
+  }
+  return a.x < b.x;
+}
+
+int N;
+coder arr[_N];
+int bit[_N];
+
+void update(int x) {
+  for (; x <= _N; x += x & -x) bit[x]++;
+}
+
+int query(int x) {
+  int sum = 0;
+  for (; x > 0; x -= x & -x) sum += bit[x];
+  return sum;
+}
+
+int ans[_N];
+
+int main() {
+  // sublimeProblem;
+  fast_io;
+
+  cin >> N;
+  FOR(i, 1, N + 1) {
+    cin >> arr[i].x >> arr[i].y;
+    arr[i].index = i;
+  }
+
+  sort(arr + 1, arr + N + 1);
+
+  for (int i = 1; i <= N;) {
+    int e = i;
+    while (e <= N && arr[i].x == arr[e].x && arr[i].y == arr[e].y) e++;
+
+    int xx = query(arr[i].y);
+    for (int j = i; j < e; j++) ans[arr[j].index] = xx;
+    for (int j = i; j < e; j++) update(arr[j].y);
+
+    i = e;
+  }
+
+  FOR(i, 1, N + 1)
+  cout << ans[i] << endl;
+}
